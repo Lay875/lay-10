@@ -1,0 +1,25 @@
+{
+  "name": "yuanlei-portfolio",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "vite build",
+    "preview": "vite preview --host 0.0.0.0"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "^5.0.0",
+    "autoprefixer": "10.4.20",
+    "framer-motion": "12.38.0",
+    "lucide-react": "^0.468.0",
+    "ogl": "^1.0.11",
+    "postcss": "8.4.49",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "tailwindcss": "3.4.17",
+    "three": "^0.185.1",
+    "typescript": "^5.8.3",
+    "vite": "^7.0.0"
+  }
+}
