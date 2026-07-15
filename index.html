@@ -1,16 +1,15 @@
-<!doctype html>
-<html lang="zh-CN">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Yuan Lei portfolio website - Visual Designer, AI Designer, Brand Designer"
-    />
-    <title>Yuan Lei | Visual Designer / AI Designer / Brand Designer</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
-</html>
+.splash-cursor {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.splash-cursor canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  opacity: 0.86;
+  filter: blur(0.2px) saturate(1.18);
+}

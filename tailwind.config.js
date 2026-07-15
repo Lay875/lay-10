@@ -1,23 +1,16 @@
-/** @type {import('tailwindcss').Config} */
-export default {
-  content: ['./index.html', './src/**/*.{ts,tsx}'],
-  theme: {
-    extend: {
-      maxWidth: {
-        page: '1700px',
-      },
-      fontFamily: {
-        display: ['Kanit', 'Inter', 'PingFang SC', 'Microsoft YaHei', 'sans-serif'],
-        body: ['Inter', 'PingFang SC', 'Microsoft YaHei', 'sans-serif'],
-      },
-      colors: {
-        ink: '#0C0C0C',
-        bone: '#D7E2EA',
-      },
-      boxShadow: {
-        glow: '0 30px 120px rgba(49, 91, 255, 0.18)',
-      },
-    },
-  },
-  plugins: [],
-};
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Yuan Lei portfolio website - Visual Designer, AI Designer, Brand Designer"
+    />
+    <title>Yuan Lei | Visual Designer / AI Designer / Brand Designer</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
