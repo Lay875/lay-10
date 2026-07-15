@@ -1,8 +1,10 @@
-import { ReactNode, useEffect, useRef, useState } from 'react';
+﻿import { ReactNode, useEffect, useRef, useState } from 'react';
 import {
   ArrowUpRight,
   BrainCircuit,
   Boxes,
+  Building2,
+  Check,
   Download,
   Layers3,
   Mail,
@@ -196,6 +198,8 @@ function HeroCharacter() {
 }
 
 function ContactModal({ open, onClose }: { open: boolean; onClose: () => void }) {
+  const [copied, setCopied] = useState(false);
+
   useEffect(() => {
     if (!open) return undefined;
     const onKeyDown = (event: KeyboardEvent) => {
@@ -204,6 +208,20 @@ function ContactModal({ open, onClose }: { open: boolean; onClose: () => void })
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [onClose, open]);
+
+  useEffect(() => {
+    if (!open) setCopied(false);
+  }, [open]);
+
+  const copyPhone = async () => {
+    try {
+      await navigator.clipboard.writeText('18668039627');
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 1600);
+    } catch {
+      window.location.href = 'tel:18668039627';
+    }
+  };
 
   return (
     <AnimatePresence>
@@ -222,25 +240,36 @@ function ContactModal({ open, onClose }: { open: boolean; onClose: () => void })
             transition={{ duration: 0.24, ease: [0.25, 0.1, 0.25, 1] }}
             onClick={(event) => event.stopPropagation()}
           >
-            <BorderGlow className="contact-card" borderRadius={30} glowColor="84 100 70" colors={['#b8ff4d', '#38bdf8', '#f472b6']}>
+            <BorderGlow
+              className="contact-card"
+              borderRadius={30}
+              glowColor="84 100 70"
+              glowIntensity={0.9}
+              fillOpacity={0.28}
+              colors={['#b8ff4d', '#ffffff', '#38bdf8']}
+            >
               <button type="button" className="contact-card__close" onClick={onClose} aria-label="关闭联系弹窗">
                 <X size={22} />
               </button>
-              <img className="contact-card__avatar" src="/assets/hero-character.webp" alt="Lay" draggable={false} />
-              <h3>Lay</h3>
-              <p>视觉设计经理 / AI设计师 / 品牌设计师</p>
-              <div className="contact-card__role">
-                <span>Yuan Lei</span>
-                <strong>杭州</strong>
+              <img className="contact-card__avatar" src="/assets/hero-character.webp" alt="袁磊" draggable={false} />
+              <h3>袁磊</h3>
+              <p>杭州</p>
+              <div className="contact-card__company">
+                <Building2 size={19} />
+                <div>
+                  <span>当贝网络科技有限公司</span>
+                  <strong>视觉设计经理</strong>
+                </div>
               </div>
               <a href="mailto:875204105@qq.com" className="contact-card__row">
                 <Mail size={18} />
-                <span>875204105@qq.com</span>
+                <span>邮箱：875204105@qq.com</span>
               </a>
-              <a href="tel:18668039627" className="contact-card__row">
-                <Phone size={18} />
-                <span>微信/电话：18668039627</span>
-              </a>
+              <button type="button" className="contact-card__row" onClick={copyPhone}>
+                {copied ? <Check size={18} /> : <Phone size={18} />}
+                <span>微信/手机：18668039627</span>
+                <em>{copied ? '已复制' : '点击复制'}</em>
+              </button>
               <a href={portfolioUrl} target="_blank" rel="noreferrer" className="contact-card__row">
                 <Download size={18} />
                 <span>查看/下载完整作品集</span>
@@ -542,3 +571,4 @@ function App() {
 }
 
 export default App;
+

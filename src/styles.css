@@ -348,12 +348,43 @@ button {
 }
 
 .contact-card__role,
+.contact-card__company,
 .contact-card__row {
   width: 100%;
   min-height: 58px;
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 12px;
   background: rgba(255, 255, 255, 0.035);
+}
+
+.contact-card__company {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  color: rgba(255, 255, 255, 0.76);
+}
+
+.contact-card__company svg {
+  flex: 0 0 auto;
+  color: rgba(184, 255, 77, 0.88);
+}
+
+.contact-card__company div {
+  display: grid;
+  gap: 5px;
+  text-align: left;
+}
+
+.contact-card__company span {
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.contact-card__company strong {
+  color: rgba(255, 255, 255, 0.56);
+  font-size: 13px;
+  font-weight: 700;
 }
 
 .contact-card__role {
@@ -385,7 +416,17 @@ button {
 }
 
 button.contact-card__row {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  font: inherit;
   cursor: pointer;
+}
+
+.contact-card__row em {
+  margin-left: auto;
+  color: rgba(184, 255, 77, 0.72);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 800;
 }
 
 @keyframes greenPulse {

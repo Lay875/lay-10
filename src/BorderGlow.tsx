@@ -58,6 +58,7 @@ function BorderGlow({
   glowRadius = 40,
   glowIntensity = 1,
   coneSpread = 25,
+  animated = false,
   colors = ['#b8ff4d', '#38bdf8', '#f472b6'],
   fillOpacity = 0.45,
 }: BorderGlowProps) {
