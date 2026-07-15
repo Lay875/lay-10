@@ -3,7 +3,6 @@ import {
   ArrowUpRight,
   BrainCircuit,
   Boxes,
-  Copy,
   Download,
   Layers3,
   Mail,
@@ -21,7 +20,6 @@ import {
   type MotionValue,
 } from 'framer-motion';
 import BorderGlow from './BorderGlow';
-import ElectricBorder from './ElectricBorder';
 import LiquidEther from './LiquidEther';
 
 type FadeInProps = {
@@ -181,14 +179,18 @@ function HeroCharacter() {
       transition={{ duration: 0.9, delay: 0.38, ease: [0.25, 0.1, 0.25, 1] }}
     >
       <div className="hero-character__glow" />
-      <ElectricBorder color="#b8ff4d" speed={1.15} chaos={0.08} borderRadius={260} className="hero-electric-border">
+      <div className="hero-character__contour">
+        <img className="hero-character__edge hero-character__edge--wide" src="/assets/hero-character.webp" alt="" draggable={false} />
+        <img className="hero-character__edge hero-character__edge--fine" src="/assets/hero-character.webp" alt="" draggable={false} />
+        <img className="hero-character__edge hero-character__edge--scan hero-character__edge--scan-a" src="/assets/hero-character.webp" alt="" draggable={false} />
+        <img className="hero-character__edge hero-character__edge--scan hero-character__edge--scan-b" src="/assets/hero-character.webp" alt="" draggable={false} />
         <img
           className="hero-character-bg"
           src="/assets/hero-character.webp"
           alt="袁磊个人形象"
           draggable={false}
         />
-      </ElectricBorder>
+      </div>
     </motion.div>
   );
 }
@@ -220,7 +222,7 @@ function ContactModal({ open, onClose }: { open: boolean; onClose: () => void })
             transition={{ duration: 0.24, ease: [0.25, 0.1, 0.25, 1] }}
             onClick={(event) => event.stopPropagation()}
           >
-            <BorderGlow className="contact-card" borderRadius={30} glowColor="84 100 70" colors={['#b8ff4d', '#38bdf8', '#f472b6']} animated>
+            <BorderGlow className="contact-card" borderRadius={30} glowColor="84 100 70" colors={['#b8ff4d', '#38bdf8', '#f472b6']}>
               <button type="button" className="contact-card__close" onClick={onClose} aria-label="关闭联系弹窗">
                 <X size={22} />
               </button>
@@ -229,7 +231,7 @@ function ContactModal({ open, onClose }: { open: boolean; onClose: () => void })
               <p>视觉设计经理 / AI设计师 / 品牌设计师</p>
               <div className="contact-card__role">
                 <span>Yuan Lei</span>
-                <strong>杭州 / 可远程协作</strong>
+                <strong>杭州</strong>
               </div>
               <a href="mailto:875204105@qq.com" className="contact-card__row">
                 <Mail size={18} />
@@ -243,10 +245,6 @@ function ContactModal({ open, onClose }: { open: boolean; onClose: () => void })
                 <Download size={18} />
                 <span>查看/下载完整作品集</span>
               </a>
-              <button type="button" className="contact-card__row" onClick={() => navigator.clipboard?.writeText('875204105@qq.com')}>
-                <Copy size={18} />
-                <span>复制邮箱</span>
-              </button>
             </BorderGlow>
           </motion.div>
         </motion.div>
@@ -348,13 +346,21 @@ function App() {
       <section id="top" className="relative flex min-h-screen flex-col overflow-hidden bg-[#050505]">
         <div className="absolute inset-0 z-0 opacity-70">
           <LiquidEther
-            colors={['#b8ff4d', '#343a34', '#050505']}
-            mouseForce={19}
-            cursorSize={150}
-            resolution={0.58}
+            colors={['#1a1d1a', '#343a34', '#b8ff4d']}
+            mouseForce={20}
+            cursorSize={75}
+            isViscous={false}
+            viscous={30}
+            iterationsViscous={32}
+            iterationsPoisson={32}
+            resolution={0.5}
+            isBounce={false}
             autoDemo
-            autoSpeed={0.2}
-            autoIntensity={1.25}
+            autoSpeed={0.5}
+            autoIntensity={1.6}
+            takeoverDuration={0.25}
+            autoResumeDelay={3000}
+            autoRampDuration={0.6}
           />
         </div>
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_70%,rgba(184,255,77,0.12),transparent_22rem),radial-gradient(circle_at_50%_20%,rgba(255,255,255,0.045),transparent_24rem),linear-gradient(180deg,rgba(5,5,5,0.18),#050505_94%)]" />

@@ -29,12 +29,13 @@ function parseHSL(hslStr: string) {
 function buildGlowVars(glowColor: string, intensity: number) {
   const { h, s, l } = parseHSL(glowColor);
   const base = `${h}deg ${s}% ${l}%`;
-  return {
-    '--glow-color': `hsl(${base} / ${Math.min(100 * intensity, 100)}%)`,
-    '--glow-color-50': `hsl(${base} / ${Math.min(50 * intensity, 100)}%)`,
-    '--glow-color-30': `hsl(${base} / ${Math.min(30 * intensity, 100)}%)`,
-    '--glow-color-20': `hsl(${base} / ${Math.min(20 * intensity, 100)}%)`,
-  };
+  const opacities = [100, 60, 50, 40, 30, 20, 10];
+  const keys = ['', '-60', '-50', '-40', '-30', '-20', '-10'];
+  const vars: Record<string, string> = {};
+  for (let i = 0; i < opacities.length; i += 1) {
+    vars[`--glow-color${keys[i]}`] = `hsl(${base} / ${Math.min(opacities[i] * intensity, 100)}%)`;
+  }
+  return vars;
 }
 
 function buildGradientVars(colors: string[]) {
@@ -67,6 +68,34 @@ function BorderGlow({
     return [width / 2, height / 2];
   }, []);
 
+  const getEdgeProximity = useCallback(
+    (el: HTMLElement, x: number, y: number) => {
+      const [cx, cy] = getCenterOfElement(el);
+      const dx = x - cx;
+      const dy = y - cy;
+      let kx = Infinity;
+      let ky = Infinity;
+      if (dx !== 0) kx = cx / Math.abs(dx);
+      if (dy !== 0) ky = cy / Math.abs(dy);
+      return Math.min(Math.max(1 / Math.min(kx, ky), 0), 1);
+    },
+    [getCenterOfElement],
+  );
+
+  const getCursorAngle = useCallback(
+    (el: HTMLElement, x: number, y: number) => {
+      const [cx, cy] = getCenterOfElement(el);
+      const dx = x - cx;
+      const dy = y - cy;
+      if (dx === 0 && dy === 0) return 0;
+      const radians = Math.atan2(dy, dx);
+      let degrees = radians * (180 / Math.PI) + 90;
+      if (degrees < 0) degrees += 360;
+      return degrees;
+    },
+    [getCenterOfElement],
+  );
+
   const handlePointerMove = useCallback(
     (event: React.PointerEvent<HTMLDivElement>) => {
       const card = cardRef.current;
@@ -74,29 +103,39 @@ function BorderGlow({
       const rect = card.getBoundingClientRect();
       const x = event.clientX - rect.left;
       const y = event.clientY - rect.top;
-      const [cx, cy] = getCenterOfElement(card);
-      const dx = x - cx;
-      const dy = y - cy;
-      const kx = dx === 0 ? Infinity : cx / Math.abs(dx);
-      const ky = dy === 0 ? Infinity : cy / Math.abs(dy);
-      const edge = Math.min(Math.max(1 / Math.min(kx, ky), 0), 1);
-      const angle = Math.atan2(dy, dx) * (180 / Math.PI) + 90;
+      const edge = getEdgeProximity(card, x, y);
+      const angle = getCursorAngle(card, x, y);
       card.style.setProperty('--edge-proximity', `${(edge * 100).toFixed(3)}`);
-      card.style.setProperty('--cursor-angle', `${angle < 0 ? angle + 360 : angle}deg`);
+      card.style.setProperty('--cursor-angle', `${angle.toFixed(3)}deg`);
     },
-    [getCenterOfElement],
+    [getCursorAngle, getEdgeProximity],
   );
 
   useEffect(() => {
-    cardRef.current?.style.setProperty('--edge-proximity', '100');
-    const timeout = window.setTimeout(() => cardRef.current?.style.setProperty('--edge-proximity', '0'), 900);
-    return () => window.clearTimeout(timeout);
-  }, []);
+    if (!animated || !cardRef.current) return undefined;
+    const card = cardRef.current;
+    let raf = 0;
+    const start = performance.now();
+    card.classList.add('sweep-active');
+    const tick = () => {
+      const t = Math.min((performance.now() - start) / 1200, 1);
+      card.style.setProperty('--edge-proximity', `${(1 - Math.abs(t * 2 - 1)) * 100}`);
+      card.style.setProperty('--cursor-angle', `${110 + 355 * t}deg`);
+      if (t < 1) raf = requestAnimationFrame(tick);
+      else {
+        card.classList.remove('sweep-active');
+        card.style.setProperty('--edge-proximity', '0');
+      }
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [animated]);
 
   return (
     <div
       ref={cardRef}
       onPointerMove={handlePointerMove}
+      onPointerLeave={() => cardRef.current?.style.setProperty('--edge-proximity', '0')}
       className={`border-glow-card ${className}`}
       style={{
         '--card-bg': backgroundColor,

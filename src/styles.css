@@ -176,35 +176,107 @@ button {
   filter:
     saturate(0.95)
     contrast(1.05)
-    brightness(0.96)
-    drop-shadow(0 0 1px rgba(184, 255, 77, 0.62))
-    drop-shadow(0 0 9px rgba(184, 255, 77, 0.16));
+    brightness(0.96);
 }
 
 .hero-character__glow {
   position: absolute;
-  inset: 8% -12% -4%;
+  inset: 18% -8% 13%;
   z-index: 0;
   border-radius: 50%;
   background:
-    radial-gradient(circle at 50% 36%, rgba(184, 255, 77, 0.13), transparent 25%),
-    radial-gradient(circle at 48% 57%, rgba(184, 255, 77, 0.11), transparent 46%),
+    radial-gradient(circle at 50% 36%, rgba(184, 255, 77, 0.055), transparent 25%),
+    radial-gradient(circle at 48% 57%, rgba(184, 255, 77, 0.07), transparent 44%),
     radial-gradient(circle at 52% 50%, rgba(255, 255, 255, 0.06), transparent 58%);
-  filter: blur(32px);
-  opacity: 0.58;
+  filter: blur(28px);
+  opacity: 0.2;
+  mask-image: linear-gradient(180deg, black 0%, black 76%, transparent 100%);
   animation: greenPulse 4.8s ease-in-out infinite;
 }
 
-.hero-electric-border {
+.hero-character__contour {
   position: absolute;
   inset: 0;
-  border-radius: 46% 46% 12% 12% / 34% 34% 10% 10%;
 }
 
-.hero-electric-border .eb-content,
-.hero-electric-border .eb-content img {
+.hero-character__edge {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
   width: 100%;
-  height: 100%;
+  height: auto;
+  object-fit: contain;
+  object-position: center bottom;
+  user-select: none;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  will-change: transform, opacity, filter, clip-path;
+}
+
+.hero-character__edge--wide {
+  opacity: 0.24;
+  filter:
+    brightness(0)
+    saturate(100%)
+    invert(88%)
+    sepia(98%)
+    saturate(502%)
+    hue-rotate(25deg)
+    brightness(104%)
+    contrast(103%)
+    drop-shadow(0 0 5px rgba(184, 255, 77, 0.38))
+    drop-shadow(0 0 13px rgba(184, 255, 77, 0.18));
+  transform: translate3d(0, 0, 0) scale(1.009);
+  clip-path: polygon(0 0, 100% 0, 100% 89%, 58% 89%, 52% 82%, 45% 89%, 0 89%);
+  animation:
+    pngContourJitter 720ms steps(2, end) infinite,
+    pngContourBreath 4.6s ease-in-out infinite;
+}
+
+.hero-character__edge--fine {
+  opacity: 0.3;
+  filter:
+    brightness(0)
+    saturate(100%)
+    invert(88%)
+    sepia(98%)
+    saturate(502%)
+    hue-rotate(25deg)
+    brightness(104%)
+    contrast(103%)
+    drop-shadow(0 0 4px rgba(184, 255, 77, 0.34));
+  transform: translate3d(0, 0, 0) scale(1.006);
+  clip-path: polygon(0 4%, 100% 0, 100% 48%, 0 66%);
+  animation:
+    pngContourFineJitter 410ms steps(2, end) infinite,
+    pngContourClip 3.8s ease-in-out infinite;
+}
+
+.hero-character__edge--scan {
+  z-index: 2;
+  opacity: 0.18;
+  filter:
+    brightness(0)
+    saturate(100%)
+    invert(88%)
+    sepia(98%)
+    saturate(502%)
+    hue-rotate(25deg)
+    brightness(104%)
+    contrast(103%)
+    drop-shadow(0 0 5px rgba(184, 255, 77, 0.4));
+  transform: translate3d(0, 0, 0) scale(1.011);
+}
+
+.hero-character__edge--scan-a {
+  clip-path: polygon(0 22%, 100% 15%, 100% 34%, 0 42%);
+  animation: pngContourScanA 2.7s ease-in-out infinite;
+}
+
+.hero-character__edge--scan-b {
+  opacity: 0.14;
+  clip-path: polygon(0 56%, 100% 49%, 100% 64%, 0 73%);
+  animation: pngContourScanB 3.35s ease-in-out infinite;
 }
 
 .contact-modal {
@@ -324,6 +396,111 @@ button.contact-card__row {
   50% {
     opacity: 0.9;
     transform: scale(1.055);
+  }
+}
+
+@keyframes pngContourBreath {
+  0%, 100% {
+    opacity: 0.18;
+    filter:
+      brightness(0)
+      saturate(100%)
+      invert(88%)
+      sepia(98%)
+      saturate(502%)
+      hue-rotate(25deg)
+      brightness(104%)
+      contrast(103%)
+      drop-shadow(0 0 4px rgba(184, 255, 77, 0.3))
+      drop-shadow(0 0 12px rgba(184, 255, 77, 0.12));
+  }
+  48% {
+    opacity: 0.3;
+    filter:
+      brightness(0)
+      saturate(100%)
+      invert(88%)
+      sepia(98%)
+      saturate(502%)
+      hue-rotate(25deg)
+      brightness(104%)
+      contrast(103%)
+      drop-shadow(0 0 6px rgba(184, 255, 77, 0.42))
+      drop-shadow(0 0 15px rgba(184, 255, 77, 0.16));
+  }
+}
+
+@keyframes pngContourJitter {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1.012);
+  }
+  18% {
+    transform: translate3d(1px, -1px, 0) scale(1.014);
+  }
+  39% {
+    transform: translate3d(-1px, 1px, 0) scale(1.011);
+  }
+  61% {
+    transform: translate3d(1px, 1px, 0) scale(1.016);
+  }
+  82% {
+    transform: translate3d(-1px, 0, 0) scale(1.013);
+  }
+}
+
+@keyframes pngContourFineJitter {
+  0%, 100% {
+    opacity: 0.18;
+    transform: translate3d(0, 0, 0) scale(1.006);
+  }
+  35% {
+    opacity: 0.34;
+    transform: translate3d(-1px, -1px, 0) scale(1.012);
+  }
+  68% {
+    opacity: 0.25;
+    transform: translate3d(1px, 0, 0) scale(1.008);
+  }
+}
+
+@keyframes pngContourClip {
+  0%, 100% {
+    clip-path: polygon(0 5%, 100% 0, 100% 43%, 0 61%);
+  }
+  50% {
+    clip-path: polygon(0 36%, 100% 25%, 100% 71%, 0 83%);
+  }
+}
+
+@keyframes pngContourScanA {
+  0% {
+    opacity: 0;
+    clip-path: polygon(0 8%, 100% 2%, 100% 15%, 0 23%);
+    transform: translate3d(-2px, -2px, 0) scale(1.01);
+  }
+  34%, 52% {
+    opacity: 0.56;
+  }
+  100% {
+    opacity: 0;
+    clip-path: polygon(0 58%, 100% 48%, 100% 66%, 0 76%);
+    transform: translate3d(2px, 2px, 0) scale(1.018);
+  }
+}
+
+@keyframes pngContourScanB {
+  0% {
+    opacity: 0;
+    clip-path: polygon(0 74%, 100% 64%, 100% 76%, 0 88%);
+    transform: translate3d(2px, 1px, 0) scale(1.016);
+  }
+  40%, 62% {
+    opacity: 0.42;
+  }
+  100% {
+    opacity: 0;
+    clip-path: polygon(0 22%, 100% 12%, 100% 28%, 0 40%);
+    transform: translate3d(-2px, -1px, 0) scale(1.01);
   }
 }
 
