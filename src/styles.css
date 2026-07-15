@@ -31,6 +31,10 @@ a {
   -webkit-tap-highlight-color: transparent;
 }
 
+button {
+  font: inherit;
+}
+
 .aurora-heading {
   background: linear-gradient(180deg, #f5f7f1 0%, #d9ded6 34%, #8f968b 66%, #b8ff4d 100%);
   -webkit-background-clip: text;
@@ -103,6 +107,7 @@ a {
   font-size: 13px;
   font-weight: 700;
   text-decoration: none;
+  cursor: pointer;
   box-shadow:
     0 18px 56px rgba(0, 0, 0, 0.34),
     inset 0 1px 0 rgba(255, 255, 255, 0.24);
@@ -111,6 +116,14 @@ a {
     border-color 220ms ease,
     box-shadow 220ms ease,
     filter 220ms ease;
+}
+
+.about-copy {
+  text-wrap: balance;
+}
+
+.about-copy span {
+  display: block;
 }
 
 .glow-button:hover {
@@ -168,12 +181,6 @@ a {
     drop-shadow(0 0 9px rgba(184, 255, 77, 0.16));
 }
 
-.hero-character__filters {
-  position: absolute;
-  width: 0;
-  height: 0;
-}
-
 .hero-character__glow {
   position: absolute;
   inset: 8% -12% -4%;
@@ -188,143 +195,125 @@ a {
   animation: greenPulse 4.8s ease-in-out infinite;
 }
 
-.hero-character__edge {
+.hero-electric-border {
   position: absolute;
   inset: 0;
-  z-index: 2;
+  border-radius: 46% 46% 12% 12% / 34% 34% 10% 10%;
+}
+
+.hero-electric-border .eb-content,
+.hero-electric-border .eb-content img {
   width: 100%;
-  height: auto;
-  user-select: none;
-  pointer-events: none;
-  object-fit: contain;
-  opacity: 0.44;
-  mix-blend-mode: normal;
+  height: 100%;
 }
 
-.hero-character__edge--wide {
-  filter:
-    url("#green-edge-distort")
-    drop-shadow(0 0 2px rgba(184, 255, 77, 0.95))
-    drop-shadow(0 0 14px rgba(184, 255, 77, 0.58))
-    drop-shadow(0 0 32px rgba(184, 255, 77, 0.22));
-  transform: translate3d(0, 0, 0) scale(1.016);
-  animation: edgeWideJitter 980ms steps(2, end) infinite, edgeBreath 4.2s ease-in-out infinite;
+.contact-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.66);
+  backdrop-filter: blur(14px);
 }
 
-.hero-character__edge--fine {
-  z-index: 2;
-  opacity: 0.34;
-  filter:
-    url("#green-edge-distort")
-    drop-shadow(0 0 1px rgba(184, 255, 77, 0.92))
-    drop-shadow(0 0 6px rgba(184, 255, 77, 0.62));
-  transform: translate3d(0, 0, 0) scale(1.01);
-  clip-path: polygon(0 0, 100% 0, 100% 56%, 0 72%);
-  animation: edgeFineJitter 620ms steps(2, end) infinite, edgeClipTravel 3.2s ease-in-out infinite;
+.contact-card {
+  width: min(92vw, 470px);
+  border-radius: 30px;
+  color: #fff;
+  box-shadow: 0 40px 120px rgba(0, 0, 0, 0.56);
 }
 
-.hero-character__mist {
-  position: absolute;
-  inset: 14% 12% 6%;
-  z-index: 2;
-  border-radius: 45%;
+.contact-card .border-glow-inner {
+  align-items: center;
+  gap: 16px;
+  padding: 32px 24px 24px;
   background:
-    radial-gradient(circle at 44% 24%, rgba(184, 255, 77, 0.18), transparent 22%),
-    conic-gradient(from 110deg, transparent, rgba(184, 255, 77, 0.18), transparent 38%, rgba(255, 255, 255, 0.05), transparent 72%);
-  filter: blur(18px);
-  opacity: 0.28;
-  animation: mistBreath 6.4s ease-in-out infinite;
-  mix-blend-mode: screen;
+    radial-gradient(circle at 20% 0%, rgba(184, 255, 77, 0.14), transparent 32%),
+    radial-gradient(circle at 92% 18%, rgba(56, 189, 248, 0.14), transparent 34%),
+    linear-gradient(180deg, rgba(25, 24, 30, 0.96), rgba(16, 10, 22, 0.98));
+  border-radius: 30px;
 }
 
-.hero-character__edge-scan {
+.contact-card__close {
   position: absolute;
-  z-index: 2;
-  width: 46%;
-  height: 24%;
+  top: 18px;
+  right: 18px;
+  z-index: 3;
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border: 0;
   border-radius: 999px;
-  background: linear-gradient(90deg, transparent, rgba(184, 255, 77, 0.34), transparent);
-  filter: blur(8px);
-  opacity: 0;
-  mix-blend-mode: screen;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.62);
+  cursor: pointer;
 }
 
-.hero-character__edge-scan--a {
-  left: 4%;
-  top: 36%;
-  transform: rotate(-22deg);
-  animation: edgeScanA 3.9s ease-in-out infinite;
+.contact-card__avatar {
+  width: 94px;
+  height: 132px;
+  object-fit: cover;
+  object-position: top center;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.04);
 }
 
-.hero-character__edge-scan--b {
-  right: 1%;
-  top: 48%;
-  transform: rotate(22deg);
-  animation: edgeScanB 4.6s ease-in-out infinite 0.8s;
+.contact-card h3 {
+  margin: 0;
+  font-family: Kanit, sans-serif;
+  font-size: 28px;
+  font-weight: 900;
+  text-transform: uppercase;
 }
 
-@keyframes edgeWideJitter {
-  0%, 100% {
-    transform: translate3d(0, 0, 0) scale(1.016);
-  }
-  34% {
-    transform: translate3d(1px, -1px, 0) scale(1.018);
-  }
-  64% {
-    transform: translate3d(-1px, 1px, 0) scale(1.015);
-  }
+.contact-card p {
+  margin: -10px 0 0;
+  color: rgba(255, 255, 255, 0.54);
 }
 
-@keyframes edgeFineJitter {
-  0%, 100% {
-    transform: translate3d(0, 0, 0) scale(1.012);
-  }
-  40% {
-    transform: translate3d(-3px, 1px, 0) scale(1.02);
-  }
-  72% {
-    transform: translate3d(2px, -2px, 0) scale(1.01);
-  }
+.contact-card__role,
+.contact-card__row {
+  width: 100%;
+  min-height: 58px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.035);
 }
 
-@keyframes edgeBreath {
-  0%, 100% {
-    opacity: 0.26;
-  }
-  50% {
-    opacity: 0.48;
-  }
+.contact-card__role {
+  display: grid;
+  place-items: center;
+  gap: 4px;
 }
 
-@keyframes edgeClipTravel {
-  0%, 100% {
-    clip-path: polygon(0 0, 100% 0, 100% 54%, 0 68%);
-  }
-  50% {
-    clip-path: polygon(0 20%, 100% 12%, 100% 86%, 0 72%);
-  }
+.contact-card__role span {
+  color: rgba(184, 255, 77, 0.94);
+  font-family: Kanit, sans-serif;
+  font-weight: 800;
 }
 
-@keyframes edgeScanA {
-  0%, 100% {
-    opacity: 0;
-    transform: translate3d(-8px, 12px, 0) rotate(-22deg) scaleX(0.8);
-  }
-  42% {
-    opacity: 0.76;
-    transform: translate3d(10px, -6px, 0) rotate(-22deg) scaleX(1.08);
-  }
+.contact-card__role strong {
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 13px;
 }
 
-@keyframes edgeScanB {
-  0%, 100% {
-    opacity: 0;
-    transform: translate3d(6px, 8px, 0) rotate(22deg) scaleX(0.74);
-  }
-  46% {
-    opacity: 0.64;
-    transform: translate3d(-12px, -4px, 0) rotate(22deg) scaleX(1.1);
-  }
+.contact-card__row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  padding: 0 18px;
+  color: rgba(255, 255, 255, 0.86);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+button.contact-card__row {
+  cursor: pointer;
 }
 
 @keyframes greenPulse {

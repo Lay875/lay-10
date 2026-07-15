@@ -3,19 +3,25 @@ import {
   ArrowUpRight,
   BrainCircuit,
   Boxes,
+  Copy,
+  Download,
   Layers3,
   Mail,
   MessageCircle,
   PenTool,
-  Sparkles,
+  Phone,
   Wand2,
+  X,
 } from 'lucide-react';
 import {
   motion,
+  AnimatePresence,
   useScroll,
   useTransform,
   type MotionValue,
 } from 'framer-motion';
+import BorderGlow from './BorderGlow';
+import ElectricBorder from './ElectricBorder';
 import LiquidEther from './LiquidEther';
 
 type FadeInProps = {
@@ -84,12 +90,14 @@ const services = [
   },
 ];
 
-const stats = [
-  ['2020-2022', '作品集时间跨度'],
-  ['50+', '作品集页面'],
-  ['6+', '覆盖设计场景'],
-  ['AI + Brand', '复合创作方向'],
+const experienceCards = [
+  ['3C数码', '设计经理', '杭州当贝网络科技有限公司'],
+  ['美妆护肤', '设计主管', '杭州珀莱雅化妆品有限公司'],
+  ['服饰鞋帽', '视觉设计师', '杭州舒朗服饰有限公司'],
+  ['AI设计', '创新与创新', 'AI驱动化设计/AI工作流/自动化'],
 ];
+
+const portfolioUrl = 'https://pan.baidu.com/s/1j550xHGtGQb2KTRNA3H7JA';
 
 const projects: Project[] = [
   {
@@ -146,12 +154,21 @@ function useSecondScreenNav() {
   return isFloating;
 }
 
-function GlowButton({ href = '#contact', children }: { href?: string; children: ReactNode }) {
+function GlowButton({ href = '#contact', children, external = false }: { href?: string; children: ReactNode; external?: boolean }) {
   return (
-    <a href={href} className="glow-button group">
+    <a href={href} target={external ? '_blank' : undefined} rel={external ? 'noreferrer' : undefined} className="glow-button group">
       <span className="glow-button__shine" />
       <span className="relative z-10 inline-flex items-center gap-2">{children}</span>
     </a>
+  );
+}
+
+function ActionButton({ children, onClick }: { children: ReactNode; onClick: () => void }) {
+  return (
+    <button type="button" onClick={onClick} className="glow-button group">
+      <span className="glow-button__shine" />
+      <span className="relative z-10 inline-flex items-center gap-2">{children}</span>
+    </button>
   );
 }
 
@@ -163,27 +180,78 @@ function HeroCharacter() {
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.9, delay: 0.38, ease: [0.25, 0.1, 0.25, 1] }}
     >
-      <svg className="hero-character__filters" aria-hidden="true">
-        <filter id="green-edge-distort">
-          <feTurbulence type="fractalNoise" baseFrequency="0.009 0.052" numOctaves="2" seed="9">
-            <animate attributeName="baseFrequency" dur="3.4s" values="0.009 0.052;0.018 0.082;0.009 0.052" repeatCount="indefinite" />
-          </feTurbulence>
-          <feDisplacementMap in="SourceGraphic" scale="3" />
-        </filter>
-      </svg>
       <div className="hero-character__glow" />
-      <img className="hero-character__edge hero-character__edge--wide" src="/assets/hero-character.webp" alt="" draggable={false} />
-      <img className="hero-character__edge hero-character__edge--fine" src="/assets/hero-character.webp" alt="" draggable={false} />
-      <img
-        className="hero-character-bg"
-        src="/assets/hero-character.webp"
-        alt="袁磊个人形象"
-        draggable={false}
-      />
-      <div className="hero-character__mist" />
-      <span className="hero-character__edge-scan hero-character__edge-scan--a" />
-      <span className="hero-character__edge-scan hero-character__edge-scan--b" />
+      <ElectricBorder color="#b8ff4d" speed={1.15} chaos={0.08} borderRadius={260} className="hero-electric-border">
+        <img
+          className="hero-character-bg"
+          src="/assets/hero-character.webp"
+          alt="袁磊个人形象"
+          draggable={false}
+        />
+      </ElectricBorder>
     </motion.div>
+  );
+}
+
+function ContactModal({ open, onClose }: { open: boolean; onClose: () => void }) {
+  useEffect(() => {
+    if (!open) return undefined;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [onClose, open]);
+
+  return (
+    <AnimatePresence>
+      {open && (
+        <motion.div
+          className="contact-modal"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={onClose}
+        >
+          <motion.div
+            initial={{ opacity: 0, y: 26, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 18, scale: 0.97 }}
+            transition={{ duration: 0.24, ease: [0.25, 0.1, 0.25, 1] }}
+            onClick={(event) => event.stopPropagation()}
+          >
+            <BorderGlow className="contact-card" borderRadius={30} glowColor="84 100 70" colors={['#b8ff4d', '#38bdf8', '#f472b6']} animated>
+              <button type="button" className="contact-card__close" onClick={onClose} aria-label="关闭联系弹窗">
+                <X size={22} />
+              </button>
+              <img className="contact-card__avatar" src="/assets/hero-character.webp" alt="Lay" draggable={false} />
+              <h3>Lay</h3>
+              <p>视觉设计经理 / AI设计师 / 品牌设计师</p>
+              <div className="contact-card__role">
+                <span>Yuan Lei</span>
+                <strong>杭州 / 可远程协作</strong>
+              </div>
+              <a href="mailto:875204105@qq.com" className="contact-card__row">
+                <Mail size={18} />
+                <span>875204105@qq.com</span>
+              </a>
+              <a href="tel:18668039627" className="contact-card__row">
+                <Phone size={18} />
+                <span>微信/电话：18668039627</span>
+              </a>
+              <a href={portfolioUrl} target="_blank" rel="noreferrer" className="contact-card__row">
+                <Download size={18} />
+                <span>查看/下载完整作品集</span>
+              </a>
+              <button type="button" className="contact-card__row" onClick={() => navigator.clipboard?.writeText('875204105@qq.com')}>
+                <Copy size={18} />
+                <span>复制邮箱</span>
+              </button>
+            </BorderGlow>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }
 
@@ -270,9 +338,13 @@ function ProjectCard({ project, index, total }: { project: Project; index: numbe
 
 function App() {
   const navFloating = useSecondScreenNav();
+  const [contactOpen, setContactOpen] = useState(false);
+  const openContact = () => setContactOpen(true);
+  const closeContact = () => setContactOpen(false);
 
   return (
     <main className="min-h-screen overflow-x-clip bg-[#050505] font-body text-white">
+      <ContactModal open={contactOpen} onClose={closeContact} />
       <section id="top" className="relative flex min-h-screen flex-col overflow-hidden bg-[#050505]">
         <div className="absolute inset-0 z-0 opacity-70">
           <LiquidEther
@@ -309,10 +381,10 @@ function App() {
               </a>
             ))}
           </div>
-          <GlowButton>
+          <ActionButton onClick={openContact}>
             <Mail size={16} />
             联系我
-          </GlowButton>
+          </ActionButton>
         </motion.nav>
 
         <div className="relative z-10 mx-auto flex w-[min(calc(100%_-_48px),1700px)] flex-1 flex-col justify-between pb-8 pt-28 sm:pb-10 lg:pt-32">
@@ -345,10 +417,10 @@ function App() {
             </FadeIn>
 
             <FadeIn delay={0.45} y={22} className="flex justify-start lg:justify-end">
-              <GlowButton>
+              <ActionButton onClick={openContact}>
                 <Mail size={16} />
                 联系我
-              </GlowButton>
+              </ActionButton>
             </FadeIn>
           </div>
         </div>
@@ -365,16 +437,21 @@ function App() {
             <h2 className="section-heading-muted font-display text-7xl font-black uppercase leading-none sm:text-8xl lg:text-9xl">About Me</h2>
           </FadeIn>
           <FadeIn delay={0.18}>
-            <p className="mt-12 max-w-5xl text-balance text-xl font-medium leading-10 text-white/78 sm:text-2xl">
-              我是袁磊，拥有8年以上品牌视觉设计及管理经验，深耕品牌设计、电商营销设计、AI设计、IP定制物料设计等领域，拥有数码3C、美妆护肤、服饰、家居等类目设计经验；对于视觉设计有极高的要求，不仅关注美感，更加注重信息是否被看见、被理解、被转化。期待与你共创一个精彩项目！
+            <p className="about-copy mt-12 max-w-5xl text-center text-xl font-medium leading-10 text-white/78 sm:text-2xl">
+              <span>我是袁磊，拥有8年以上品牌视觉设计及管理经验，</span>
+              <span>深耕品牌设计、电商营销设计、AI设计、IP定制物料设计等领域，</span>
+              <span>拥有数码3C、美妆护肤、服饰、家居等类目设计经验；</span>
+              <span>对于视觉设计有极高的要求，不仅关注美感，更加注重信息是否被看见、被理解、被转化。</span>
+              <span>期待与你共创精彩项目！</span>
             </p>
           </FadeIn>
           <FadeIn delay={0.32} className="mt-14">
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-              {stats.map(([value, label]) => (
-                <div key={label} className="glass-line rounded-[22px] px-6 py-5 text-left">
-                  <strong className="block font-display text-2xl font-black text-white">{value}</strong>
-                  <span className="mt-2 block text-xs text-white/54">{label}</span>
+              {experienceCards.map(([category, role, company]) => (
+                <div key={category} className="glass-line rounded-[22px] px-6 py-5 text-left">
+                  <strong className="block font-display text-2xl font-black text-white">{category}</strong>
+                  <span className="mt-2 block text-sm font-semibold text-white/72">{role}</span>
+                  <span className="mt-3 block text-xs font-semibold text-white/42">{company}</span>
                 </div>
               ))}
             </div>
@@ -415,7 +492,7 @@ function App() {
             <div className="mb-16 flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
               <h2 className="section-heading-muted font-display text-7xl font-black uppercase leading-none sm:text-8xl lg:text-9xl">Projects</h2>
               <p className="max-w-xl text-lg leading-8 text-white/62">
-                以作品集已有素材搭建首版项目展示。后续可继续拆成详情页、过程页、动效页和AI生成流程页。
+                视觉设计经理 | 袁磊 YUAN LEI
               </p>
             </div>
           </FadeIn>
@@ -443,9 +520,9 @@ function App() {
               <Mail size={19} />
               875204105@qq.com
             </GlowButton>
-            <GlowButton href="#top">
-              <Sparkles size={19} />
-              返回首页
+            <GlowButton href={portfolioUrl} external>
+              <Download size={19} />
+              查看/下载完整作品集
             </GlowButton>
             <GlowButton href="tel:18668039627">
               <MessageCircle size={19} />
