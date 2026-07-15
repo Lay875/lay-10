@@ -42,18 +42,18 @@ const navItems = [
 ];
 
 const marqueeImages = [
-  '/assets/project-kv-618.jpg',
-  '/assets/project-kv-88.jpg',
-  '/assets/project-kv-1111.jpg',
-  '/assets/marquee-21-38.jpg',
-  '/assets/marquee-qixi.jpg',
-  '/assets/marquee-makeup.jpg',
-  '/assets/project-overview.png',
-  '/assets/project-ip.png',
-  '/assets/page-618-home.jpg',
-  '/assets/page-ruby-serum.jpg',
-  '/assets/page-sunscreen.jpg',
-  '/assets/live-super.jpg',
+  '/assets/project-kv-618.webp',
+  '/assets/project-kv-88.webp',
+  '/assets/project-kv-1111.webp',
+  '/assets/marquee-21-38.webp',
+  '/assets/marquee-qixi.webp',
+  '/assets/marquee-makeup.webp',
+  '/assets/project-overview.webp',
+  '/assets/project-ip.webp',
+  '/assets/page-618-home.webp',
+  '/assets/page-ruby-serum.webp',
+  '/assets/page-sunscreen.webp',
+  '/assets/live-super.webp',
 ];
 
 const services = [
@@ -97,21 +97,21 @@ const projects: Project[] = [
     title: 'PROYA Campaign System',
     category: '电商营销 / 品牌KV',
     description: '围绕大促活动建立强记忆点主视觉，并将产品、利益点和活动节奏延展到多端页面与投放物料。',
-    images: ['/assets/project-kv-618.jpg', '/assets/project-kv-88.jpg', '/assets/page-618-home.jpg'],
+    images: ['/assets/project-kv-618.webp', '/assets/project-kv-88.webp', '/assets/page-618-home.webp'],
   },
   {
     number: '02',
     title: 'Aerospace IP Collaboration',
     category: 'IP定制 / 产品物料',
     description: '以航天叙事和产品包装为核心，构建带有科技想象力的跨界视觉资产，兼顾展示感与传播识别。',
-    images: ['/assets/project-ip.png', '/assets/live-super.jpg', '/assets/project-overview.png'],
+    images: ['/assets/project-ip.webp', '/assets/live-super.webp', '/assets/project-overview.webp'],
   },
   {
     number: '03',
     title: 'Product Visual Collection',
     category: '品牌海报 / 页面视觉',
     description: '通过材质、光感和信息层级呈现产品卖点，让单张海报和长页面都具备审美张力与销售效率。',
-    images: ['/assets/project-brand-serum.jpg', '/assets/project-brand-cream.jpg', '/assets/page-ruby-serum.jpg'],
+    images: ['/assets/project-brand-serum.webp', '/assets/project-brand-cream.webp', '/assets/page-ruby-serum.webp'],
   },
 ];
 
@@ -172,11 +172,11 @@ function HeroCharacter() {
         </filter>
       </svg>
       <div className="hero-character__glow" />
-      <img className="hero-character__edge hero-character__edge--wide" src="/assets/hero-character.png" alt="" draggable={false} />
-      <img className="hero-character__edge hero-character__edge--fine" src="/assets/hero-character.png" alt="" draggable={false} />
+      <img className="hero-character__edge hero-character__edge--wide" src="/assets/hero-character.webp" alt="" draggable={false} />
+      <img className="hero-character__edge hero-character__edge--fine" src="/assets/hero-character.webp" alt="" draggable={false} />
       <img
         className="hero-character-bg"
-        src="/assets/hero-character.png"
+        src="/assets/hero-character.webp"
         alt="袁磊个人形象"
         draggable={false}
       />
@@ -299,7 +299,7 @@ function App() {
           transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
         >
           <a href="#top" className="flex items-center gap-3 font-display">
-            <span className="grid h-10 w-10 place-items-center rounded-xl bg-[#b8ff4d] text-lg font-black text-[#050505]">YL</span>
+            <span className="grid h-10 min-w-10 place-items-center rounded-xl bg-[#b8ff4d] px-3 text-sm font-black text-[#050505]">Lay</span>
             <span className="hidden text-xs font-bold uppercase text-white/70 sm:block">Design Portfolio</span>
           </a>
           <div className="hidden gap-8 text-sm font-semibold text-white/72 md:flex lg:text-base">
@@ -358,15 +358,15 @@ function App() {
 
       <section id="about" className="relative grid min-h-screen place-items-center overflow-hidden bg-[#050505] px-6 py-24 sm:px-10">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_12%_22%,rgba(255,255,255,0.055),transparent_28rem),radial-gradient(circle_at_88%_74%,rgba(184,255,77,0.085),transparent_26rem)]" />
-        <img src="/assets/project-brand-serum.jpg" alt="" className="absolute left-[4%] top-[8%] hidden w-[170px] rotate-[-10deg] rounded-[28px] object-cover opacity-70 md:block" />
-        <img src="/assets/project-brand-cream.jpg" alt="" className="absolute bottom-[8%] right-[6%] hidden w-[190px] rotate-[9deg] rounded-[28px] object-cover opacity-80 md:block" />
+        <img src="/assets/project-brand-serum.webp" alt="" className="absolute left-[4%] top-[8%] hidden w-[170px] rotate-[-10deg] rounded-[28px] object-cover opacity-70 md:block" />
+        <img src="/assets/project-brand-cream.webp" alt="" className="absolute bottom-[8%] right-[6%] hidden w-[190px] rotate-[9deg] rounded-[28px] object-cover opacity-80 md:block" />
         <div className="relative mx-auto grid max-w-4xl justify-items-center text-center">
           <FadeIn>
             <h2 className="section-heading-muted font-display text-7xl font-black uppercase leading-none sm:text-8xl lg:text-9xl">About Me</h2>
           </FadeIn>
           <FadeIn delay={0.18}>
-            <p className="mt-12 max-w-3xl text-balance text-xl font-medium leading-10 text-white/78 sm:text-2xl">
-              我是袁磊，视觉设计师、AI设计师、品牌设计师。作品覆盖品牌KV、电商大促、页面视觉、IP定制物料、直播场景与产品海报。我关注画面的高级感，也关注信息是否被看见、被理解、被转化。
+            <p className="mt-12 max-w-5xl text-balance text-xl font-medium leading-10 text-white/78 sm:text-2xl">
+              我是袁磊，拥有8年以上品牌视觉设计及管理经验，深耕品牌设计、电商营销设计、AI设计、IP定制物料设计等领域，拥有数码3C、美妆护肤、服饰、家居等类目设计经验；对于视觉设计有极高的要求，不仅关注美感，更加注重信息是否被看见、被理解、被转化。期待与你共创一个精彩项目！
             </p>
           </FadeIn>
           <FadeIn delay={0.32} className="mt-14">
@@ -439,17 +439,17 @@ function App() {
             </p>
           </FadeIn>
           <FadeIn delay={0.18} className="grid gap-3">
-            <GlowButton href="mailto:hello@example.com">
+            <GlowButton href="mailto:875204105@qq.com">
               <Mail size={19} />
-              hello@example.com
+              875204105@qq.com
             </GlowButton>
             <GlowButton href="#top">
               <Sparkles size={19} />
               返回首页
             </GlowButton>
-            <GlowButton href="#contact">
+            <GlowButton href="tel:18668039627">
               <MessageCircle size={19} />
-              微信 / 电话待补充
+              微信/电话：18668039627
             </GlowButton>
           </FadeIn>
         </div>
